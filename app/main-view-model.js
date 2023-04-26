@@ -9,53 +9,6 @@ var field = [["0", "0", "0"], ["0", "0", "0"], ["0", "0", "0"]];
 export function createViewModel() {
   const viewModel = new Observable();
 
-  viewModel.rowsCrossed = (player) => {
-    for (i = 0; i < 3; i++) {
-      if (field[i][0] == field[i][1] &&
-        field[i][1] == field[i][2] &&
-        field[i][0] == player) {
-        return field[i][0];
-      }
-    }
-    return "";
-  };
-
-  viewModel.colsCrossed = (player) => {
-    for (i = 0; i < 3; i++) {
-      if (field[0][i] == field[1][i] &&
-        field[1][i] == field[2][i] &&
-        field[0][i] == player) {
-        return field[0][i];
-      }
-    }
-    return "";
-  };
-
-  viewModel.diaCrossed = (player) => {
-    if (field[0][0] == field[1][1] &&
-      field[1][1] == field[2][2] &&
-      field[2][2] == player) {
-      return field[0][0];
-    }
-    if (field[2][0] == field[1][1] &&
-      field[1][1] == field[0][2] &&
-      field[0][2] == player) {
-      return field[0][2];
-    }
-    return "";
-  };
-
-  viewModel.draw = () => {
-    for (i = 0; i < 3; i++) {
-      for (j = 0; j < 3; j++) {
-        if (field[i][j] == 0) {
-          return false;
-        }
-      }
-    }
-    return true;
-  };
-
   viewModel.onButtonTap = (args) => {
     console.log(args.object);
 
@@ -177,6 +130,53 @@ export function createViewModel() {
       }
     }
     GameOver = false;
+  };
+
+  viewModel.rowsCrossed = (player) => {
+    for (i = 0; i < 3; i++) {
+      if (field[i][0] == field[i][1] &&
+        field[i][1] == field[i][2] &&
+        field[i][0] == player) {
+        return field[i][0];
+      }
+    }
+    return "";
+  };
+
+  viewModel.colsCrossed = (player) => {
+    for (i = 0; i < 3; i++) {
+      if (field[0][i] == field[1][i] &&
+        field[1][i] == field[2][i] &&
+        field[0][i] == player) {
+        return field[0][i];
+      }
+    }
+    return "";
+  };
+
+  viewModel.diaCrossed = (player) => {
+    if (field[0][0] == field[1][1] &&
+      field[1][1] == field[2][2] &&
+      field[2][2] == player) {
+      return field[0][0];
+    }
+    if (field[2][0] == field[1][1] &&
+      field[1][1] == field[0][2] &&
+      field[0][2] == player) {
+      return field[0][2];
+    }
+    return "";
+  };
+
+  viewModel.draw = () => {
+    for (i = 0; i < 3; i++) {
+      for (j = 0; j < 3; j++) {
+        if (field[i][j] == 0) {
+          return false;
+        }
+      }
+    }
+    return true;
   };
 
   return viewModel;
