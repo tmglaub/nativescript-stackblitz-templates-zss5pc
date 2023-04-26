@@ -1,4 +1,4 @@
-<Page loaded="pageLoaded" xmlns="http://www.nativescript.org/tns.xsd">
+<Page xmlns="http://www.nativescript.org/tns.xsd"> navigatingTo=onNavigatingTo()>
     <ActionBar title="Home">
     </ActionBar>
     <ScrollView class="view">
