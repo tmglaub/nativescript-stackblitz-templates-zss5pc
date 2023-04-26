@@ -6,10 +6,10 @@ var GameOver = false;
 var Player = "X";
 var field = [["0", "0", "0"], ["0", "0", "0"], ["0", "0", "0"]];
 
-function createViewModel() {
+export function createViewModel() {
   const viewModel = new Observable();
-  viewModel.onTap = () => {
-    console.log("Button was pressed");
+  viewModel.onButtonTap = (args) => {
+    console.log(args.object);
 
     if (!GameOver) {
       var btn = args.object;
@@ -180,5 +180,3 @@ function createViewModel() {
 
   return viewModel;
 }
-
-export default createViewModel;
