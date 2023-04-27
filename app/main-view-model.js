@@ -131,6 +131,8 @@ export function createViewModel() {
       }
     }
     viewModel.GameOver = false;
+    viewModel.Player = "X";
+    viewModel.field = [["0", "0", "0"], ["0", "0", "0"], ["0", "0", "0"]];
   };
 
   viewModel.rowsCrossed = (player) => {
