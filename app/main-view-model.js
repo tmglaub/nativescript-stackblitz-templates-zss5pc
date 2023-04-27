@@ -2,37 +2,38 @@ import { Observable } from "@nativescript/core";
 import { Color } from "@nativescript/core";
 import { getViewById } from "@nativescript/core";
 
-var GameOver = false;
-var Player = "X";
-var field = [["0", "0", "0"], ["0", "0", "0"], ["0", "0", "0"]];
-
 export function createViewModel() {
+
   const viewModel = new Observable();
+
+  viewModel.GameOver = false;
+  viewModel.Player = "X";
+  viewModel.field = [["0", "0", "0"], ["0", "0", "0"], ["0", "0", "0"]];
 
   viewModel.onButtonTap = (args) => {
     // console.log("Button was pressed");
 
-    if (!GameOver) {
+    if (!viewModel.GameOver) {
       var btn = args.object;
       var parentGrid = btn.parent;
       var parentStack = parentGrid.parent;
       var lbl = getViewById(parentStack, "Info");
 
       if (btn.text == "") {
-        field[btn.row][btn.col] = Player;
-        btn.text = Player;
+        viewModel.field[btn.row][btn.col] = viewModel.Player;
+        btn.text = viewModel.Player;
 
         // Spieler wechseln
-        if (Player == "X") {
+        if (viewModel.Player == "X") {
           const color = new Color("#FF0000");
           btn.backgroundColor = color;
           lbl.text = "Spieler O ist an der Reihe";
-          Player = "O";
+          viewModel.Player = "O";
         } else {
           const color = new Color("#00FF00");
           btn.backgroundColor = color;
           lbl.text = "Spieler X ist an der Reihe";
-          Player = "X";
+          viewModel.Player = "X";
         }
 
         // prüfen ob GameOver
@@ -42,43 +43,43 @@ export function createViewModel() {
         if (viewModel.rowsCrossed("X") == "X") {
           lbl.text = "Spieler X hat gewonnen!";
           lbl.backgroundColor = lblColor;
-          GameOver = true;
+          viewModel.GameOver = true;
         }
         // prüfen ob in einer Reihe alles O
         if (viewModel.rowsCrossed("O") == "O") {
           lbl.text = "Spieler O hat gewonnen!";
           lbl.backgroundColor = lblColor;
-          GameOver = true;
+          viewModel.GameOver = true;
         }
         // prüfen ob in einer Zeile alles X
         if (viewModel.colsCrossed("X") == "X") {
           lbl.text = "Spieler X hat gewonnen!";
           lbl.backgroundColor = lblColor;
-          GameOver = true;
+          viewModel.GameOver = true;
         }
         // prüfen ob in einer Zeile alles O
         if (viewModel.colsCrossed("O") == "O") {
           lbl.text = "Spieler O hat gewonnen!";
           lbl.backgroundColor = lblColor;
-          GameOver = true;
+          viewModel.GameOver = true;
         }
         // prüfen ob diagonal alles X
         if (viewModel.diaCrossed("X") == "X") {
           lbl.text = "Spieler X hat gewonnen!";
           lbl.backgroundColor = lblColor;
-          GameOver = true;
+          viewModel.GameOver = true;
         }
         // prüfen ob diagonal alles O
         if (viewModel.diaCrossed("O") == "O") {
           lbl.text = "Spieler O hat gewonnen!";
           lbl.backgroundColor = lblColor;
-          GameOver = true;
+          viewModel.GameOver = true;
         }
         // prüfen ob Unentschieden
         if (viewModel.draw()) {
           lbl.text = "Unentschieden!";
           lbl.backgroundColor = lblColor;
-          GameOver = true;
+          viewModel.GameOver = true;
         }
       }
     }
@@ -86,7 +87,7 @@ export function createViewModel() {
 
   viewModel.onReset = (args) => {
     console.log("Restart was pressed");
-    Player = "X";
+    viewModel.Player = "X";
     var btn = args.object;
     var lbl = getViewById(btn.parent, "Info");
     var grid = getViewById(btn.parent, "grid");
@@ -126,44 +127,44 @@ export function createViewModel() {
 
     for (i = 0; i < 3; i++) {
       for (j = 0; j < 3; j++) {
-        field[i][j] = "0";
+        viewModel.field[i][j] = "0";
       }
     }
-    GameOver = false;
+    viewModel.GameOver = false;
   };
 
-  viewModel.rowsCrossed = (arg) => {
+  viewModel.rowsCrossed = (player) => {
     for (i = 0; i < 3; i++) {
-      if (field[i][0] == field[i][1] &&
-        field[i][1] == field[i][2] &&
-        field[i][0] == arg) {
-        return field[i][0];
+      if (viewModel.field[i][0] == viewModel.field[i][1] &&
+        viewModel.field[i][1] == viewModel.field[i][2] &&
+        viewModel.field[i][0] == player) {
+        return viewModel.field[i][0];
       }
     }
     return "";
   };
 
-  viewModel.colsCrossed = (arg) => {
+  viewModel.colsCrossed = (player) => {
     for (i = 0; i < 3; i++) {
-      if (field[0][i] == field[1][i] &&
-        field[1][i] == field[2][i] &&
-        field[0][i] == arg) {
-        return field[0][i];
+      if (viewModel.field[0][i] == viewModel.field[1][i] &&
+        viewModel.field[1][i] == viewModel.field[2][i] &&
+        viewModel.field[0][i] == player) {
+        return viewModel.field[0][i];
       }
     }
     return "";
   };
 
-  viewModel.diaCrossed = (arg) => {
-    if (field[0][0] == field[1][1] &&
-      field[1][1] == field[2][2] &&
-      field[2][2] == arg) {
-      return field[0][0];
+  viewModel.diaCrossed = (player) => {
+    if (viewModel.field[0][0] == viewModel.field[1][1] &&
+      viewModel.field[1][1] == viewModel.field[2][2] &&
+      viewModel.field[2][2] == player) {
+      return viewModel.field[0][0];
     }
-    if (field[2][0] == field[1][1] &&
-      field[1][1] == field[0][2] &&
-      field[0][2] == arg) {
-      return field[0][2];
+    if (viewModel.field[2][0] == viewModel.field[1][1] &&
+      viewModel.field[1][1] == viewModel.field[0][2] &&
+      viewModel.field[0][2] == player) {
+      return viewModel.field[0][2];
     }
     return "";
   };
@@ -171,7 +172,7 @@ export function createViewModel() {
   viewModel.draw = () => {
     for (i = 0; i < 3; i++) {
       for (j = 0; j < 3; j++) {
-        if (field[i][j] == 0) {
+        if (viewModel.field[i][j] == 0) {
           return false;
         }
       }
